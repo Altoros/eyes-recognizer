@@ -1,0 +1,6 @@
+---
+applications:
+- name: eyes-recognizer-api
+  memory: 128M
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  host: eyes-recognizer-api
