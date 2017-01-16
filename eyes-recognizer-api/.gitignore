@@ -51,3 +51,6 @@ jspm_packages
 
 # Configuration
 .env
+
+# Build files
+dist
