@@ -31,7 +31,7 @@ async function train () {
         value: fs.createReadStream(path.join(__dirname, 'opened_eyes.zip')),
         options: { filename: 'opened_eyes.zip', contentType: 'application/zip' }
       },
-      negative_examples: {
+      closed_eyes_positive_examples: {
         value: fs.createReadStream(path.join(__dirname, 'closed_eyes.zip')),
         options: { filename: 'closed_eyes.zip', contentType: 'application/zip' }
       }

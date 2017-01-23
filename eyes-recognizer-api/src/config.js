@@ -10,8 +10,7 @@ export default function () {
       port: { type: 'string' },
       url: { type: 'string', format: 'uri' },
       apiKey: { type: 'string' },
-      version: { type: 'string' },
-      classifierId: { type: 'string' }
+      version: { type: 'string' }
     },
     required: 'port url apiKey version'.split(' ')
   }
@@ -20,8 +19,7 @@ export default function () {
     port: process.env.PORT,
     url: process.env.RECOGNITION_API_URL,
     apiKey: process.env.API_KEY,
-    version: process.env.VERSION,
-    classifierId: process.env.CLASSIFIER_ID
+    version: process.env.VERSION
   }
 
   const validator = new Ajv({ allErrors: true })

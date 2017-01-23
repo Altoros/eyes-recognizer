@@ -4,9 +4,9 @@
   "description": "Eyes recognizer application for Bluemix training",
   "main": "src/index.js",
   "scripts": {
-    "dev": "babel-watch src/index.js",
+    "dev": "babel-watch --watch .env src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && mkdir dist && babel -d ./dist ./src -s inline",
+    "build": "rimraf dist && mkdir dist && babel -d ./dist ./src -s inline",
     "start": "node dist/index.js",
     "train": "babel-node src/tasks/train.js"
   },
@@ -21,7 +21,8 @@
     "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1"
+    "eslint-plugin-standard": "^2.0.1",
+    "rimraf": "^2.5.4"
   },
   "dependencies": {
     "ajv": "^4.10.4",
@@ -31,6 +32,7 @@
     "koa": "^2.0.0",
     "koa-body": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
+    "koa-logger": "^2.0.1",
     "koa-router": "^7.0.1",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"

@@ -5,7 +5,7 @@ It uses Watson Visual Recognition service to train the classifier and yield resu
 
 ## Prerequisites
 * Git
-* Node.js 5.x or higher with NPM 3.x or higher
+* Node.js 4.x or higher with NPM 3.x or higher
 * Bluemix account
 
 ## First steps
@@ -15,19 +15,17 @@ It uses Watson Visual Recognition service to train the classifier and yield resu
 ## Building the UI
 * Using the command line, navigate to the `eyes-recognizer-ui` directory and install dependencies with `npm install`
 * Open the `eyes-recognizer-ui` directory in your favourite code editor
-* In the `./config` folder, create `dev.env.js` and `prod.env.js` using contents from sample files nearby
 * Run the development server with `npm run dev`. That should automatically launch the default web browser
 * Observe the contents of `./src` directory. Make some changes to HTML in `./src/App.vue`. Observe how the page in the browser window updates accoridngly
 * Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./dist` directory
 * Create a `./manifest.yml` file:
 ```
----
 applications:
 - name: eyes-recognizer-ui
   memory: 64M
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   path: ./dist
-  host: eyes-recognizer-ui
+  host: eyes-recognizer-ui-<<YOUR-NAME>>
 ```
 * Finally, deploy the application using the command line: `cf push`
 * Pause for the discussion on routes. Observe the command line output for a URL of the deployed app. Open it and validate that it's working. Check both HTTP and HTTPS access
@@ -125,7 +123,7 @@ export default {
         })
         .catch((e) => {
           this.uploading = false
-          this.uploadError = e.message
+          this.uploadError = e.response ? `${e.response.status} ${e.response.data}` : e.message
           setTimeout(() => { this.uploadError = null }, 3000)
         })
     }
@@ -183,22 +181,21 @@ export default {
 * Open the `chat-bot-api` directory in your favourite code editor
 * Create `.env` file using contents from sample file nearby
 * Replace contents of `RECOGNITION_API_URL`, `API_KEY` variables with values collected on previous steps
-* Pause for the discussion on classifiers. Train the Watson to recognize the eyes: `npm run train`. That step requires `.zip` archives with training samples. Observe the output and copy `classifier_id`
-* Replace contents of `CLASSIFIER_ID` variable in `.env` with the copied value from training
+* Download archives with training images https://drive.google.com/drive/folders/0B09oCGkIGumzbUszMnNCei1KdWM?usp=sharing
+* Pause for the discussion on classifiers. Copy files to `./src/tasks`. Train the Watson to recognize the eyes: `npm run train`.
 * Run the development server with `npm run dev`
 * Pause for the discussion on configuration. Observe the contents of `./src/config.js`.
 * Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./dist` directory
 * Create a `./manifest.yml` file:
 ```
----
 applications:
 - name: eyes-recognizer-api
   memory: 128M
   buildpack: https://github.com/cloudfoundry/nodejs-buildpack
-  host: eyes-recognizer-api
+  host: eyes-recognizer-api-<<YOUR-NAME>>
 ```
 * Finally, deploy the application using the command line: `cf push`. Observe the command line output for a URL of the deployed app
-* Pause for the discussion on logs. Tail the logs of the application with `cf logs eyes-recognizer-api`
+* Pause for the discussion on logs. Print the logs of the application with `cf logs --recent eyes-recognizer-api`
 * Open a `eyes-recognizer-ui` in your code editor and modify `./config/prod.env.js` with the URL of the deployed API
 * Rebuild and redeploy the `eyes-recognizer-ui` with `npm run build` and `cf push`
 * Open the URL of deployed `eyes-recognizer-ui` and try to analyze a couple of images

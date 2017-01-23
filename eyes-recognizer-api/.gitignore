@@ -49,8 +49,5 @@ jspm_packages
 # Training files
 *.zip
 
-# Configuration
-.env
-
 # Build files
 dist

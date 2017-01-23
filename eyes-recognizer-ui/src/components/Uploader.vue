@@ -43,7 +43,7 @@ export default {
         })
         .catch((e) => {
           this.uploading = false
-          this.uploadError = e.message
+          this.uploadError = e.response ? `${e.response.status} ${e.response.data}` : e.message
           setTimeout(() => { this.uploadError = null }, 3000)
         })
     }
