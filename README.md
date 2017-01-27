@@ -9,16 +9,16 @@ It uses Watson Visual Recognition service to train the classifier and yield resu
 * Bluemix account
 
 ## First steps
-* Clone the repo `git clone https://github.com/marvelousNinja/eyes-recognizer.git`
+* Clone the repo `git clone https://github.com/Altoros/eyes-recognizer.git`
 * Repository contains completed application at `master` branch and the starting point at `starting-point` branch. Checkout the starting point with `git checkout starting-point`
 
 ## Building the UI
 * Using the command line, navigate to the `eyes-recognizer-ui` directory and install dependencies with `npm install`
 * Open the `eyes-recognizer-ui` directory in your favourite code editor
 * Run the development server with `npm run dev`. That should automatically launch the default web browser
-* Observe the contents of `./src` directory. Make some changes to HTML in `./src/App.vue`. Observe how the page in the browser window updates accoridngly
-* Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./dist` directory
-* Create a `./manifest.yml` file:
+* Observe the contents of `./eyes-recognizer-ui/src` directory. Make some changes to HTML in `./eyes-recognizer-ui/src/App.vue`. Observe how the page in the browser window updates accoridngly
+* Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./eyes-recognizer-ui/dist` directory
+* Create a `./eyes-recognizer-ui/manifest.yml` file:
 ```
 applications:
 - name: eyes-recognizer-ui
@@ -29,31 +29,55 @@ applications:
 ```
 * Finally, deploy the application using the command line: `cf push`
 * Pause for the discussion on routes. Observe the command line output for a URL of the deployed app. Open it and validate that it's working. Check both HTTP and HTTPS access
-* Pause for the discussion on buildpacks. Observe the contents of `./manifest.yml` and take a look at documentation at http://docs.cloudfoundry.org/buildpacks/staticfile/index.html
-* Let's create actual uploader UI. Create `./src/components/ImageList.vue` with the following contents:
+* Pause for the discussion on buildpacks. Observe the contents of `./eyes-recognizer-ui/manifest.yml` and take a look at documentation at http://docs.cloudfoundry.org/buildpacks/staticfile/index.html
+* Let's create actual uploader UI. Create `./eyes-recognizer-ui/src/components/ImageList.vue` with the following contents:
 ```
 <template>
   <div>
-    <div v-for='image in images'>
+    <div class='Wrapper' v-for='image in images'>
       <img :src='image.src'></img>
-      <div>{{image.analysis}}</div>
+      <pre>{{prettyJSON(image.analysis)}}</pre>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['images']
+  props: ['images'],
+  methods: {
+    prettyJSON (json) {
+      return JSON.stringify(json, null, 2)
+    }
+  }
 }
 </script>
 
 <style scoped>
 img {
-  max-height: 100px;
+  height: 200px;
+  border: 1px solid rgba(117, 24, 160, 0.2);
+  padding: 5px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+pre {
+  padding: 10px;
+  margin: 5px;
+  font-size: 10px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+}
+
+.Wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
 }
 </style>
 ```
-* Now, let's create `./src/components/Spinner.vue`:
+* Now, let's create `./eyes-recognizer-ui/src/components/Spinner.vue`:
 ```
 <template>
   <div></div>
@@ -76,7 +100,7 @@ div {
 }
 </style>
 ```
-* Next, the the Uploader component at `./src/components/Uploader.vue`:
+* Next, the the Uploader component at `./eyes-recognizer-ui/src/components/Uploader.vue`:
 ```
 <template>
   <form @submit.prevent='upload'>
@@ -136,14 +160,16 @@ form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 10px;
 }
 
 img {
   max-height: 100px;
+  margin-top: 10px;
 }
 </style>
 ```
-* Finally, replace the contents of `./src/App.vue` to use the components we've just created:
+* Finally, replace the contents of `./eyes-recognizer-ui/src/App.vue` to use the components we've just created:
 ```
 <template>
   <div id='app'>
@@ -171,6 +197,12 @@ export default {
   }
 }
 </script>
+
+<style>
+body {
+  background-color: rgba(100, 100, 100, 0.2);
+}
+</style>
 ```
 * Check the UI in the browser. Upload form should be visible, but will fire errors since we don't have API yet. It is time to implement API microservice
 
@@ -179,14 +211,14 @@ export default {
 * Naviate to Bluemix Catalog and create Visual Recognition service: https://console.ng.bluemix.net/catalog/services/visual-recognition/
 * Open the *Service Credentials* tab and click on *View Credentials*. Copy the contents, we will need them later
 * Open the `chat-bot-api` directory in your favourite code editor
-* Create `.env` file using contents from sample file nearby
+* Create `./eyes-recognizer-api/.env` file using contents from sample file nearby
 * Replace contents of `RECOGNITION_API_URL`, `API_KEY` variables with values collected on previous steps
 * Download archives with training images https://drive.google.com/drive/folders/0B09oCGkIGumzbUszMnNCei1KdWM?usp=sharing
-* Pause for the discussion on classifiers. Copy files to `./src/tasks`. Train the Watson to recognize the eyes: `npm run train`.
+* Pause for the discussion on classifiers. Copy files to `./eyes-recognizer-api/src/tasks`. Train the Watson to recognize the eyes: `npm run train`.
 * Run the development server with `npm run dev`
-* Pause for the discussion on configuration. Observe the contents of `./src/config.js`.
-* Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./dist` directory
-* Create a `./manifest.yml` file:
+* Pause for the discussion on configuration. Observe the contents of `./eyes-recognizer-api/src/config.js`.
+* Pause for the discussion on build artifacts. Create a build artifact for deployment with `npm run build`. Observe the contents of `./eyes-recognizer-api/dist` directory
+* Create a `./eyes-recognizer-api/manifest.yml` file:
 ```
 applications:
 - name: eyes-recognizer-api
@@ -196,14 +228,14 @@ applications:
 ```
 * Finally, deploy the application using the command line: `cf push`. Observe the command line output for a URL of the deployed app
 * Pause for the discussion on logs. Print the logs of the application with `cf logs --recent eyes-recognizer-api`
-* Open a `eyes-recognizer-ui` in your code editor and modify `./config/prod.env.js` with the URL of the deployed API
+* Open a `eyes-recognizer-ui` in your code editor and modify `./eyes-recognizer-ui/config/prod.env.js` with the URL of the deployed API
 * Rebuild and redeploy the `eyes-recognizer-ui` with `npm run build` and `cf push`
 * Open the URL of deployed `eyes-recognizer-ui` and try to analyze a couple of images
 
 ## Retraining the classifier
-* Open the `eyes-recognizer-api` directory in your code editor and observe contents of `./src/tasks/train.js`
+* Open the `eyes-recognizer-api` directory in your code editor and observe contents of `./eyes-recognizer-api/src/tasks/train.js`
 * Modify contents of training archives and execute `npm run train`
-* Note, that training destroys the old classifier and creates a new one. Make sure to change the `CLASSIFIER_ID` in the configuration and redeploy the application
+* Be wary that training destroys the old classifier and creates a new one
 
 ## Additional exercises
 * Consult with the documentation http://www.ibm.com/watson/developercloud/doc/visual-recognition/classifiers-tutorials.shtml and create your own classifier. Take time to collect the samples
