@@ -56,9 +56,11 @@ form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 10px;
 }
 
 img {
   max-height: 100px;
+  margin-top: 10px;
 }
 </style>

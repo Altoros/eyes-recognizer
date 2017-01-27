@@ -24,3 +24,9 @@ export default {
   }
 }
 </script>
+
+<style>
+body {
+  background-color: rgba(100, 100, 100, 0.2);
+}
+</style>
