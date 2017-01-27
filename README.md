@@ -208,7 +208,7 @@ body {
 
 ## Building the API
 * Using the command line, navigate to the `eyes-recognizer-api` directory and install dependencies with `npm install`
-* Naviate to Bluemix Catalog and create Visual Recognition service: https://console.ng.bluemix.net/catalog/services/visual-recognition/
+* Navigate to Bluemix Catalog and create Visual Recognition service: https://console.ng.bluemix.net/catalog/services/visual-recognition/
 * Open the *Service Credentials* tab and click on *View Credentials*. Copy the contents, we will need them later
 * Open the `chat-bot-api` directory in your favourite code editor
 * Create `./eyes-recognizer-api/.env` file using contents from sample file nearby
