@@ -1,4 +1,4 @@
-# Eyes Recognizer Application
+# Eyes Recognizer Application (Starting Point)
 
 Use case for this application is to check whatever the eyes of the person on the photo are open.
 It uses Watson Visual Recognition service to train the classifier and yield results.

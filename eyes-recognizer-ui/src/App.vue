@@ -1,32 +1,28 @@
 <template>
   <div id='app'>
-    <ImageList :images='images'/>
-    <Uploader @uploaded='onUploaded'/>
+    <h1>{{greeting}}</h1>
   </div>
 </template>
 
 <script>
-import ImageList from './components/ImageList'
-import Uploader from './components/Uploader'
-
 export default {
-  name: 'app',
-  components: { Uploader, ImageList },
   data () {
     return {
-      images: []
-    }
-  },
-  methods: {
-    onUploaded (image) {
-      this.images.push(image)
+      greeting: 'Hello!!!'
     }
   }
 }
 </script>
 
 <style>
-body {
-  background-color: rgba(100, 100, 100, 0.2);
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,700');
+* {
+  margin: 0px;
+  padding: 0px;
+}
+#app {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
 }
 </style>
